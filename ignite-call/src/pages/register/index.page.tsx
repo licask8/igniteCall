@@ -1,11 +1,13 @@
-import { Button, Heading, MultiStep, Text, TextInput } from '@ignite-ui/react'
-import {Container, Form, FormError, Header} from './styles'
-import { ArrowArcRight } from 'phosphor-react'
-import { useForm } from 'react-hook-form'
-import { zodResolver} from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import { useRouter } from 'next/router'
+import { AxiosError} from 'axios';
 import { useEffect } from 'react'
+import { useRouter } from 'next/router'
+import { useForm } from 'react-hook-form'
+import { ArrowArcRight } from 'phosphor-react'
+import { zodResolver} from '@hookform/resolvers/zod'
+import {Container, Form, FormError, Header} from './styles'
+import { Button, Heading, MultiStep, Text, TextInput } from '@ignite-ui/react'
+import { api } from '../../lib/axios'
 
 
 const registerFormSchema = z.object({
@@ -24,15 +26,28 @@ type RegisterFormSchemaData = z.infer<typeof registerFormSchema>
 export default function Register() {
     const router = useRouter()
 
-    
-
     const {register, handleSubmit, formState: {errors, isSubmitting }, setValue} = useForm<RegisterFormSchemaData>({
         resolver: zodResolver(registerFormSchema),
         
     })
 
     async function handleRegister(data: RegisterFormSchemaData) {
-        console.log(data)
+        try {
+            await api.post('/users', {
+                name: data.name,
+                username: data.username,
+            })
+
+            await router.push('register/connect-calendar');
+
+        } catch (error) {
+           if (error instanceof AxiosError && error?.response?.data?.message) {
+            alert(error.response.data.message)
+            return
+           }
+
+           console.log(error)
+        }
     }
 
     useEffect(() => {
@@ -73,7 +88,7 @@ export default function Register() {
                     )}
                 </label>
 
-                <Button  disabled={isSubmitting}>
+                <Button type="submit"  disabled={isSubmitting} >
                     Próximo passo
                     <ArrowArcRight />
                 </Button>
