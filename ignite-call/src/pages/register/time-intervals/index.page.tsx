@@ -7,6 +7,8 @@ import {  convertTimeStringToMinutes } from '../../../utils/conver-time-string-t
 import { useForm, useFieldArray, Controller } from 'react-hook-form'
 import { Button, Checkbox, Heading, MultiStep, Text, TextInput } from '@ignite-ui/react'
 import { FormError, IntervalBox,  IntervalDay, IntervalInputs, IntervalItem, IntervalsContainer } from './styles'
+import { api } from '../../../lib/axios'
+import { useRouter } from 'next/router'
 
 
 const timeIntervalsFormSchema = z.object({
@@ -45,6 +47,9 @@ type TimeIntervalFormInput = z.input<typeof timeIntervalsFormSchema>
 type TimeIntervalsFormOutput = z.output<typeof timeIntervalsFormSchema>
 
 export default function TimeIntervals() {
+    const router = useRouter()
+
+
     const { control ,register, handleSubmit, watch, formState: { errors, isSubmitting}} = useForm<TimeIntervalFormInput>({
         resolver: zodResolver(timeIntervalsFormSchema),
         defaultValues: {
@@ -70,9 +75,13 @@ export default function TimeIntervals() {
     const intervals = watch('intervals')
 
     async function handleSetTimeIntervals(data: any) {
-      const formData = data as TimeIntervalsFormOutput;
+      const {intervals} = data as TimeIntervalsFormOutput;
 
-      console.log(formData)
+      await api.post('/users/time-intervals', {
+        intervals,
+      })
+
+      await router.push('/register/update-profile')
     }
 
     return (
