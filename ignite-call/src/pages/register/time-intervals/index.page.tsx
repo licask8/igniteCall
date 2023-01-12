@@ -1,14 +1,14 @@
 import { z } from 'zod'
+import { useRouter } from 'next/router'
+import { api } from '../../../lib/axios'
 import { ArrowRight } from 'phosphor-react'
 import {Container, Header, } from '../styles'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { getWeekDays } from '../../../utils/get-week-days'
-import {  convertTimeStringToMinutes } from '../../../utils/conver-time-string-to-minutes'
 import { useForm, useFieldArray, Controller } from 'react-hook-form'
+import {  convertTimeStringToMinutes } from '../../../utils/conver-time-string-to-minutes'
 import { Button, Checkbox, Heading, MultiStep, Text, TextInput } from '@ignite-ui/react'
 import { FormError, IntervalBox,  IntervalDay, IntervalInputs, IntervalItem, IntervalsContainer } from './styles'
-import { api } from '../../../lib/axios'
-import { useRouter } from 'next/router'
 
 
 const timeIntervalsFormSchema = z.object({

@@ -1,10 +1,10 @@
 
-import { ArrowRight, Check  } from 'phosphor-react'
-import {Container, Header} from '../styles'
-import { Button, Heading, MultiStep, Text } from '@ignite-ui/react'
-import { ConnectBox, ConnectItem, AuthError } from './styles'
-import { signIn, useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
+import {Container, Header} from '../styles'
+import { ArrowRight, Check  } from 'phosphor-react'
+import { signIn, useSession } from 'next-auth/react'
+import { ConnectBox, ConnectItem, AuthError } from './styles'
+import { Button, Heading, MultiStep, Text } from '@ignite-ui/react'
 
 
 export default function Register() {
