@@ -49,7 +49,6 @@ type TimeIntervalsFormOutput = z.output<typeof timeIntervalsFormSchema>
 export default function TimeIntervals() {
     const router = useRouter()
 
-
     const { control ,register, handleSubmit, watch, formState: { errors, isSubmitting}} = useForm<TimeIntervalFormInput>({
         resolver: zodResolver(timeIntervalsFormSchema),
         defaultValues: {
@@ -65,7 +64,7 @@ export default function TimeIntervals() {
         },
     })
 
-    const weekDays = getWeekDays()
+    const weekDays = getWeekDays({short: false})
 
     const { fields } = useFieldArray({
         control,
