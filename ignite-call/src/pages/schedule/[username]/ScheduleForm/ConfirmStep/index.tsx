@@ -1,8 +1,11 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Text, TextArea, TextInput } from "@ignite-ui/react";
+import dayjs from "dayjs";
+import { useRouter } from "next/router";
 import { CalendarBlank, Clock } from "phosphor-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { api } from "../../../../../lib/axios";
 import { ConfirmForm, FormActions, FormError, FormHeader } from "./styles";
 
 const confirmFormSchema = z.object({
@@ -13,27 +16,47 @@ const confirmFormSchema = z.object({
 
 type confirmFormSchemaData = z.infer<typeof confirmFormSchema>
 
-export function ConfirmStep() {
+interface ConfirmStepProps {
+    schedulingDate: Date
+    onCancelConfirmation: () => void
+}
+
+export function ConfirmStep({ schedulingDate, onCancelConfirmation }: ConfirmStepProps) {
 
     const {register, handleSubmit, formState: {errors, isSubmitting}} = useForm<confirmFormSchemaData>({
         resolver: zodResolver(confirmFormSchema)
     })
 
-    function handleConfirmScheduling(data: confirmFormSchemaData) {
-        console.log(data)
+    const router = useRouter()
+    const username = String(router.query.username)
+
+    async function handleConfirmScheduling(data: confirmFormSchemaData) {
+        const { name, email, observations} = data
+
+
+        await api.post(`/users/${username}/schedule`, {
+            name,
+            email,
+            observations,
+            date: schedulingDate,
+        })
+
+        onCancelConfirmation()
     }
 
+    const describeDate = dayjs(schedulingDate).format('DD[ de ]MMMM[ de ]YYYY')
+    const describeTime = dayjs(schedulingDate).format('HH:mm[h]')
 
     return (
         <ConfirmForm as="form" onSubmit={handleSubmit(handleConfirmScheduling)}>
             <FormHeader>
                 <Text>
                     <CalendarBlank />
-                    22 de setembro de 2022
+                   {describeDate}
                 </Text>
                 <Text>
                     <Clock />
-                    18:00h
+                    {describeTime}
                 </Text>
             </FormHeader>
 
@@ -59,7 +82,7 @@ export function ConfirmStep() {
             </label>
 
             <FormActions>
-                <Button type="button" variant='tertiary'>
+                <Button type="button" variant='tertiary' onClick={onCancelConfirmation}>
                     Cancelar
                 </Button>
                 <Button type="submit" disabled={isSubmitting}>

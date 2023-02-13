@@ -67,10 +67,13 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
         },
     })
 
-    const availableTimes = possibleTimes.filter(time => {
-        return !blockedTimes.some(
-            blockedTimes => blockedTimes.date.getHours() === time,
-            )
+    const availableTimes = possibleTimes.filter((time) => {
+       const isTimeBlocked = blockedTimes.some(
+        (blockedTime) => blockedTime.date.getHours() === time,
+       )
+       
+       const isTimeInPast = referenceDate.set('hour', time).isBefore(new Date())
+        return !isTimeBlocked && !isTimeInPast;
     })
 
     return res.json({ possibleTimes, availableTimes })
