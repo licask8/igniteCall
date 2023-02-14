@@ -1,6 +1,6 @@
 
 ![ignitecall](https://user-images.githubusercontent.com/39626457/218814848-639dc8da-0d6e-42e1-8261-6dca4431dee6.png)
-# igniteCall
+# IgniteCall
 App de agendamento descomplicado 
 
 # Tecnologia / Ferramentas utilizadas
