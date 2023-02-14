@@ -3,7 +3,7 @@
 # IgniteCall
 App de agendamento descomplicado 
 
-# Tecnologia / Ferramentas utilizadas
+# Tecnologias / Ferramentas utilizadas
 
 * React
 * Typescript
@@ -12,15 +12,14 @@ App de agendamento descomplicado
 * React hookform
 * Zod
 * Api route
-* axios
+* Axios
 * Nookies / Cookies
 * Prima ORM
 * Docker
 * DayJs
-
+* Google apis
 
 # Autenticação
-
 * NextAuth
 * Google Provider
 * Refresh token
