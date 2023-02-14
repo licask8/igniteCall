@@ -11,7 +11,7 @@ import { unstable_getServerSession } from 'next-auth'
 import { FormAnnotation, ProfileBox } from './styles'
 import { buildNextAuthOptions } from '../../api/auth/[...nextauth].api'
 import { Avatar, Button, Heading, MultiStep, Text, TextArea } from '@ignite-ui/react'
-
+import { NextSeo } from 'next-seo'
 
 const updateProfileSchema = z.object({
    bio: z.string()
@@ -39,42 +39,49 @@ export default function UpdateProfile() {
 
 
     return (
-        <Container>
-            <Header>
-                <Heading as="strong" >
-                Bem-vindo ao Ignite Call!
-                </Heading>
-                <Text>
-                Precisamos de algumas informações para criar seu perfil! Ah, você pode editar essas informações depois.
-                </Text>
+        <>
+             <NextSeo
+                title="Atualize seu perfil | ignite call"
+                noindex
+            />
 
-                <MultiStep size={4} currentStep={4} />
-            </Header>
+            <Container>
+                <Header>
+                    <Heading as="strong" >
+                    Bem-vindo ao Ignite Call!
+                    </Heading>
+                    <Text>
+                    Precisamos de algumas informações para criar seu perfil! Ah, você pode editar essas informações depois.
+                    </Text>
 
-            <ProfileBox as="form" onSubmit={handleSubmit(handleUpdateProfile)}>
-                <label>
-                <Text size='sm'>Foto de perfil</Text>
-                <Avatar src={session.data?.user.avatar_url} alt={session.data?.user.name} />
+                    <MultiStep size={4} currentStep={4} />
+                </Header>
 
-                </label>
+                <ProfileBox as="form" onSubmit={handleSubmit(handleUpdateProfile)}>
+                    <label>
+                    <Text size='sm'>Foto de perfil</Text>
+                    <Avatar src={session.data?.user.avatar_url} alt={session.data?.user.name} />
 
-                <label>
-                    <Text size='sm'>Sobre você</Text>
+                    </label>
 
-                    <TextArea  {...register('bio')}/>
+                    <label>
+                        <Text size='sm'>Sobre você</Text>
 
-                    <FormAnnotation size="sm">
-                        Fale um pouco sobre você. Isto será exibido em sua página pessoal.
-                    </FormAnnotation>    
-                 
-                </label>
+                        <TextArea  {...register('bio')}/>
 
-                <Button type="submit"  disabled={isSubmitting} >
-                    Finalizar
-                    <ArrowArcRight />
-                </Button>
-            </ProfileBox>
-        </Container>
+                        <FormAnnotation size="sm">
+                            Fale um pouco sobre você. Isto será exibido em sua página pessoal.
+                        </FormAnnotation>    
+                    
+                    </label>
+
+                    <Button type="submit"  disabled={isSubmitting} >
+                        Finalizar
+                        <ArrowArcRight />
+                    </Button>
+                </ProfileBox>
+            </Container>
+        </>    
     )   
 }
 

@@ -8,7 +8,7 @@ import { ArrowArcRight } from 'phosphor-react'
 import { zodResolver} from '@hookform/resolvers/zod'
 import {Container, Form, FormError, Header} from './styles'
 import { Button, Heading, MultiStep, Text, TextInput } from '@ignite-ui/react'
-
+import { NextSeo } from 'next-seo'
 
 const registerFormSchema = z.object({
     username: z.string()
@@ -56,6 +56,11 @@ export default function Register() {
     },[router.query?.username, setValue])
 
     return (
+    <>
+     <NextSeo
+      title="Crie uma conta | ignite call"
+      />
+
         <Container>
             <Header>
                 <Heading as="strong" >
@@ -93,5 +98,6 @@ export default function Register() {
                 </Button>
             </Form>
         </Container>
+     </>   
     )   
 }
